@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { ethers } from "ethers"
 import { Row, Col, Card, Button } from 'react-bootstrap'
 
-const Home = ({ marketplace, nft }) => {
+const Explore = ({ marketplace, nft }) => {
   const [loading, setLoading] = useState(true)
   const [items, setItems] = useState([])
   const loadMarketplaceItems = async () => {
@@ -48,31 +48,22 @@ const Home = ({ marketplace, nft }) => {
     </main>
   )
   return (
-    <div className="flex justify-center">
+    <div>
       {items.length > 0 ?
-        <div className="px-5 container">
-          <Row xs={1} md={2} lg={4} className="g-4 py-5">
-            {items.map((item, idx) => (
-              <Col key={idx} className="overflow-hidden">
-                <Card>
-                  <Card.Img variant="top" src={item.image} />
-                  <Card.Body color="secondary">
-                    <Card.Title>{item.name}</Card.Title>
-                    <Card.Text>
-                      {item.description}
-                    </Card.Text>
-                  </Card.Body>
-                  <Card.Footer>
-                    <div className='d-grid'>
-                      <Button onClick={() => buyMarketItem(item)} variant="primary" size="lg">
-                        Buy for {ethers.utils.formatEther(item.totalPrice)} ETH
-                      </Button>
-                    </div>
-                  </Card.Footer>
-                </Card>
-              </Col>
-            ))}
-          </Row>
+        <div className="explore-nft-container">
+          {items.map((item, idx) => (
+            <div key={idx}>
+              <div className="nft-card">
+                <img className='nft-img' src={item.image} />
+                <h3>{item.name}</h3>
+                <p>{item.description}</p>
+              
+                <Button className='buy-btn' onClick={() => buyMarketItem(item)}>
+                  Buy for {ethers.utils.formatEther(item.totalPrice)} ETH
+                </Button>
+              </div>
+            </div>
+          ))}
         </div>
         : (
           <main style={{ padding: "1rem 0" }}>
@@ -82,4 +73,4 @@ const Home = ({ marketplace, nft }) => {
     </div>
   );
 }
-export default Home
+export default Explore

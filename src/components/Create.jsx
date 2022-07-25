@@ -22,16 +22,17 @@ const Create = ({ marketplace, nft }) => {
       }
     }
   }
-  const createNFT = async () => {
+  const createNFT = async (event) => {
+    event.preventDefault();
     if (!image || !price || !name || !description) return
     try{
-      const result = await client.add(JSON.stringify({image, price, name, description}))
-      mintThenList(result)
+      const result = await client.add(JSON.stringify({image, price, name, description}));
+      mint(result);
     } catch(error) {
-      console.log("ipfs uri upload error: ", error)
+      console.log("ipfs uri upload error: ", error);
     }
   }
-  const mintThenList = async (result) => {
+  const mint = async (result) => {
     const uri = `https://ipfs.infura.io/ipfs/${result.path}`
     // mint nft 
     await(await nft.mint(uri)).wait()
@@ -44,30 +45,44 @@ const Create = ({ marketplace, nft }) => {
     await(await marketplace.listItem(nft.address, id, listingPrice)).wait()
   }
   return (
-    <div className="container-fluid mt-5">
-      <div className="row">
-        <main role="main" className="col-lg-12 mx-auto" style={{ maxWidth: '1000px' }}>
-          <div className="content mx-auto">
-            <Row className="g-4">
-              <Form.Control
-                type="file"
-                required
-                name="file"
-                onChange={uploadToIPFS}
-              />
-              <Form.Control onChange={(e) => setName(e.target.value)} size="lg" required type="text" placeholder="Name" />
-              <Form.Control onChange={(e) => setDescription(e.target.value)} size="lg" required as="textarea" placeholder="Description" />
-              <Form.Control onChange={(e) => setPrice(e.target.value)} size="lg" required type="number" placeholder="Price in ETH" />
-              <div className="d-grid px-0">
-                <Button onClick={createNFT} variant="primary" size="lg">
-                  Create & List NFT!
-                </Button>
-              </div>
-            </Row>
-          </div>
-        </main>
-      </div>
+
+    <div className="container">
+      <h1>CREATE <span className="green-text">NFT</span></h1>
+
+      <form className='nft-form' onSubmit={createNFT} autoComplete="off">
+          <input id='file' type='file' required onChange={uploadToIPFS} />
+          <input id='name' type='text' required onChange={(e) => setName(e.target.value)} placeholder='Enter name...' />
+          <input id='description' type='textArea' required onChange={(e) => setDescription(e.target.value)} placeholder='Description...' />
+          <input id='price' type='number' required onChange={(e) => setPrice(e.target.value)} placeholder='Price in ETH...' />
+          <br />
+          <button className="mint-btn" type="submit">MINT & LIST</button>
+      </form>
     </div>
+
+    // <div className="container-fluid mt-5">
+    //   <div className="row">
+    //     <main role="main" className="col-lg-12 mx-auto" style={{ maxWidth: '1000px' }}>
+    //       <div className="content mx-auto">
+    //         <Row className="g-4">
+    //           <Form.Control
+    //             type="file"
+    //             required
+    //             name="file"
+    //             onChange={uploadToIPFS}
+    //           />
+    //           <Form.Control onChange={(e) => setName(e.target.value)} size="lg" required type="text" placeholder="Name" />
+    //           <Form.Control onChange={(e) => setDescription(e.target.value)} size="lg" required as="textarea" placeholder="Description" />
+    //           <Form.Control onChange={(e) => setPrice(e.target.value)} size="lg" required type="number" placeholder="Price in ETH" />
+    //           <div className="d-grid px-0">
+    //             <Button onClick={createNFT} variant="primary" size="lg">
+    //               Create & List NFT!
+    //             </Button>
+    //           </div>
+    //         </Row>
+    //       </div>
+    //     </main>
+    //   </div>
+    // </div>
   );
 }
 
