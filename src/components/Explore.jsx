@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { ethers } from "ethers"
 import { Row, Col, Card, Button } from 'react-bootstrap'
 
-const Explore = ({ marketplace, nft }) => {
+const Explore = ({ marketplace, nft, account }) => {
   const [loading, setLoading] = useState(true)
   const [items, setItems] = useState([])
   const loadMarketplaceItems = async () => {
@@ -10,8 +10,11 @@ const Explore = ({ marketplace, nft }) => {
     const itemCount = await marketplace.itemCount()
     let items = []
     for (let i = 1; i <= itemCount; i++) {
-      const item = await marketplace.items(i)
-      if (!item.sold) {
+      const item = await marketplace.items(i);
+      console.log(String(item.seller).toLocaleUpperCase() == String(account).toUpperCase())
+      console.log(String(item.seller).toUpperCase())
+      console.log(String(account).toUpperCase())
+      if (!item.sold && item.seller.toLowerCase() != account) {
         // get uri url from nft contract
         const uri = await nft.tokenURI(item.tokenId)
         // use uri to fetch the nft metadata stored on ipfs 

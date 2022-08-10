@@ -58,7 +58,7 @@ function App() {
 /************************************* On Account Change *******************************************/
 
   window.ethereum.on('accountsChanged', async () => {
-    await login()
+    document.location.reload()
   })
 
   const loadContracts = async (signer) => {
@@ -102,7 +102,7 @@ function App() {
                 <Create marketplace={marketplace} nft={nft} />
               } />
               <Route path="/explore" element={
-                <Explore marketplace={marketplace} nft={nft} />
+                <Explore marketplace={marketplace} nft={nft} account={account} />
               } />
               <Route path="/my-nfts" element={
                 <MyNfts marketplace={marketplace} nft={nft} account={account} />

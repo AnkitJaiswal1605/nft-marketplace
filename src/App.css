@@ -140,6 +140,10 @@ form input::placeholder {
   color: white;
 }
 
+form input:focus {
+  outline: none;
+}
+
 .mint-btn {
   background-color: white;
   border: none;

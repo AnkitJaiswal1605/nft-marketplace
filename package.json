@@ -2,6 +2,7 @@
   "name": "nft-marketplace",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://AnkitJaiswal1605.github.io/nft-marketplace",
   "dependencies": {
     "@openzeppelin/contracts": "^4.7.1",
     "@testing-library/jest-dom": "^5.16.4",
@@ -43,6 +44,7 @@
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^1.0.2",
     "@nomiclabs/hardhat-etherscan": "^3.1.0",
+    "gh-pages": "^4.0.0",
     "hardhat": "^2.10.1"
   }
 }
